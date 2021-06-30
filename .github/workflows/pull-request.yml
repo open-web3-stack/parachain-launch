@@ -10,6 +10,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
+      - name: lint    
         run: |
           yarn install --immutable
           yarn lint
@@ -22,6 +23,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
+      - name: build
         run: |
           yarn install --immutable
           yarn build
