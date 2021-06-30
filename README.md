@@ -14,42 +14,56 @@ parachain-launch is a script that generates a docker compose file allowing you t
 
 # Options
 
+The following options are supported by the generate script.
+
+| Option        | Description                |Required            | Default      |
+| ------------- |----------------------------|:------------------:|--------------|
+| --config      | Path to config file.       | No                 | ./config.yml |
+| --output      | Path to output dir.        | No                 | ./output     |
+| --yes         | Overwrite generated files? | No                 | false        |
+
 # Global Usage
 
-Install the package globally:
+1. Install the package globally:
 
 ```sh
 yarn global add @open-web3/parachain-launch
 ```
 
-Download the [example config](https://github.com/open-web3-stack/parachain-launch/blob/master/config.yml) file and edit as necessary.
+2. Download the [example config](https://github.com/open-web3-stack/parachain-launch/blob/master/config.yml) file and edit as necessary.
 
-Run the generate script:
+3. Run the generate script:
 
 ```sh
 parahain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
 ```
 
+This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.
+
 # Local Usage
 
-Install the package locally:
+1. Install the package locally:
 
 ```sh
 yarn add @open-web3/parachain-launch
 ```
 
-Download the [example config](https://github.com/open-web3-stack/parachain-launch/blob/master/config.yml) file and edit as necessary.
+2. Download the [example config](https://github.com/open-web3-stack/parachain-launch/blob/master/config.yml) file and edit as necessary.
 
-Run the service from within the local directory:
+3. Run the service from within the local directory:
 
 ```sh
 node_modules/.bin/parahain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
 ```
 
+This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.
+
 # Start relaychain and parachain
 
+To start the nodes, navigate to the output folder that you generated the scripts in and build the docker container:
+
 ```sh
-cd ./output # OR custom output directory if provided
+cd ./output # OR custom output directory
 
 docker-compose up -d --build
 ```
