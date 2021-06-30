@@ -24,7 +24,6 @@
     "lint": "polkadot-dev-run-lint",
     "start": "node lib/index.js"
   },
-  "bin": "./bin/parachain-launch",
   "dependencies": {
     "@polkadot/api": "^4.10.1",
     "@polkadot/keyring": "^6.4.1",
@@ -44,5 +43,6 @@
     "@types/yargs": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.4"
-  }
+  },
+  "bin": "./bin/parachain-launch"
 }
