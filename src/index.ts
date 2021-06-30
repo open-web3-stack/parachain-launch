@@ -38,6 +38,7 @@ const exec = (cmd: string, fatal = true) => {
   const res = shell.exec(cmd, { silent: true });
   if (res.code !== 0) {
     console.error('Error: Command failed with code', res.code);
+    console.log(res);
     if (fatal) {
       process.exit(1);
     }

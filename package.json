@@ -9,7 +9,8 @@
   "bugs": "https://github.com/open-web3-stack/parachain-launch/issues",
   "homepage": "https://github.com/open-web3-stack/parachain-launch",
   "files": [
-    "lib/*"
+    "lib/*",
+    "bin/*"
   ],
   "engine": {
     "node": ">=14"
@@ -21,8 +22,9 @@
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "lint": "polkadot-dev-run-lint",
-    "start": "node lib/"
+    "start": "node lib/index.js"
   },
+  "bin": "./bin/parachain-launch",
   "dependencies": {
     "@polkadot/api": "^4.10.1",
     "@polkadot/keyring": "^6.4.1",
