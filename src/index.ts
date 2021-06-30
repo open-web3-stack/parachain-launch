@@ -233,6 +233,29 @@ const generateNodeKey = (image: string) => {
 };
 
 /**
+ * Set parachain runtime value - Support
+ * for older genesis format where runtime
+ * keys are prefixed.
+ *
+ * @param runtime
+ * @param key
+ * @param value
+ */
+const setParachainRuntimeValue = (runtime: { [index: string]: any }, key: string, value: { [index: string]: any }) => {
+  const keys = Object.keys(runtime);
+  const regex = new RegExp(`^(module|frame|pallet|orml)?(?=${key})(${key})$`, 'i');
+
+  const matches = keys.filter((key) => key.match(regex));
+
+  if (matches.length) {
+    runtime[matches[0]] = { ...(runtime[matches[0]] || {}), ...value };
+    return;
+  }
+
+  runtime[key] = value;
+};
+
+/**
  * Generate parachain genesis file
  *
  * @param id
@@ -272,7 +295,6 @@ const generateParachainGenesisFile = (
   spec.bootNodes = [];
 
   const runtime = spec.genesis.runtime;
-
   runtime.parachainInfo.parachainId = id;
 
   const endowed = [];
@@ -283,24 +305,21 @@ const generateParachainGenesisFile = (
   }
 
   if (chain.collators) {
-    runtime.moduleCollatorSelection = {
-      ...(runtime.moduleCollatorSelection || {}),
-      invulnerables: chain.collators.map(getAddress),
-    };
-    runtime.palletSession = {
-      ...(runtime.palletSession || {}),
+    const invulnerables = chain.collators.map(getAddress);
+    setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });
+    setParachainRuntimeValue(runtime, 'session', {
       keys: chain.collators.map((x) => {
         const addr = getAddress(x);
         return [addr, addr, { aura: addr }];
       }),
-    };
-
-    endowed.push(...runtime.moduleCollatorSelection.invulnerables);
+    });
+    endowed.push(...invulnerables);
   }
 
   if (endowed.length) {
     const decimals = _.get(spec, 'properties.tokenDecimals[0]') || _.get(spec, 'properties.tokenDecimals') || 15;
-    const balances: [string, number][] = runtime?.palletBalances?.balances || [];
+    const balances: [string, number][] =
+      _.get(runtime, 'balances.balances') || _.get(runtime, 'palletBalances.balances') || [];
     const balObj: { [index: string]: number } = {};
     for (const [addr, val] of balances) {
       balObj[addr] = val;
@@ -308,7 +327,7 @@ const generateParachainGenesisFile = (
     for (const addr of endowed) {
       balObj[addr] = (balObj[addr] || 0) + Math.pow(10, decimals);
     }
-    runtime.palletBalances = { ...(runtime.palletBalances || {}), balances: Object.entries(balObj).map((x) => x) };
+    setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj).map((x) => x) });
   }
 
   fs.writeFileSync(filepath, JSON.stringify(spec, null, 2));
