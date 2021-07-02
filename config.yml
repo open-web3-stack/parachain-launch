@@ -1,48 +1,61 @@
+# Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v0.9.7
-  chain: rococo-local
-  runtimeGenesisConfig:
+  image: parity/polkadot:v0.9.7 # the docker image to use
+  chain: rococo-local # the chain to use
+  runtimeGenesisConfig: # additonal genesis override
     parachainsConfiguration:
       config:
         validation_upgrade_frequency: 1
         validation_upgrade_delay: 1
-  env:
-    RUST_LOG: parachain::candidate-backing=trace,parachain::candidate-selection=trace,parachain::pvf=trace,parachain::collator-protocol=trace,parachain::provisioner=trace
-  flags:
+  env: # environment variables for all relaychain nodes
+    RUST_LOG: parachain::candidate-backing=trace
+  flags: # additional CLI flags for all relaychain nodes
     - --rpc-methods=unsafe
-    - --wasm-execution=compiled
-    - --execution=wasm
     - --no-beefy
-  nodes:
-    - name: alice
+  nodes: # nodes config
+    - name: alice # the node name and session key, this imply `--alice`
+      wsPort: 9944 # default ws port number is `9944 + global_node_index`
+      rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
+      port: 30333 # default libp2p port number is `30333 + global_node_index`
+      flags: # additional CLI flags for this node
+        - --force-authoring
+      env:
+        RUST_LOG: debug # environment varitables for this node
     - name: bob
     - name: charlie
 
+# Parachain Configuration
 parachains:
+# Config for first parachain
 - image: acala/karura-node:1.1.0
-  chain:
-    base: karura-latest
-    collators:
-      - alice
-      - bob
+  chain: # this could be a string like `dev` or a config object
+    base: karura-latest # the chain to use
+    collators: # override collators
+      - alice # this imply //Alice
+      - rXMrmePtNnyZ61hvpjfEEZ1zmKzueUnTqijDncTzE8Wa2sJ # or could be a session key public address
       - charlie
-    sudo: alice
-  id: 2000
-  parachain: true
-  flags:
+    sudo: alice # override sudo key to //Alice
+  id: 2000 # override parachain id
+  parachain: true # this is parachain, not parathread
+  flags: # CLI flags for this parachain nodes
     - --rpc-methods=unsafe
     - --force-authoring
-    - --wasm-execution=compiled
     - --execution=wasm
-  relaychainFlags:
-    - --wasm-execution=compiled
+  relaychainFlags: # CLI flags for the relaychain port
     - --execution=wasm
     - --no-beefy
-  env:
-    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
-  nodes:
-  - flags:
-    - --alice
+  env: # environment variables for this parachain nodes
+    RUST_LOG: sc_basic_authorship=trace
+  nodes: # nodes config
+  - wsPort: 9947
+    rpcPort: 9936
+    port: 30336
+    flags: # additional CLI flags for this node
+      - --alice
+    relaychainFlags: # additional CLI flags for relaychian part
+      - --name=relaychain-alice
+    env:
+      RUST_LOG: debug # environment varitables for this node
   - flags:
     - --bob
   - flags:
