@@ -18,8 +18,8 @@ jobs:
           yarn install --immutable
           yarn lint
 
-  publish:
-    name: NPM Publish
+  build:
+    name: Build
     if: "! startsWith(github.event.head_commit.message, '[CI Skip]')"
     runs-on: ubuntu-latest
     steps:
@@ -30,8 +30,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: publish
+      - name: build
         run: |
           yarn install --immutable
           yarn build
-          yarn publish
