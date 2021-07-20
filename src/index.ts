@@ -325,7 +325,8 @@ const generateParachainGenesisFile = (
       balObj[addr] = val;
     }
     for (const addr of endowed) {
-      balObj[addr] = (balObj[addr] || 0) + Math.pow(10, decimals);
+      // TODO: https://github.com/open-web3-stack/parachain-launch/issues/5
+      balObj[addr] = (balObj[addr] || 0) + Math.pow(10, decimals) * 1000;
     }
     setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj).map((x) => x) });
   }
