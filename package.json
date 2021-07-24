@@ -1,6 +1,6 @@
 {
   "name": "@open-web3/parachain-launch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Laminar Developers <hello@laminar.one>",
   "license": "Apache-2.0",
   "main": "lib/index.js",
@@ -8,10 +8,7 @@
   "repository": "https://github.com/open-web3-stack/parachain-launch",
   "bugs": "https://github.com/open-web3-stack/parachain-launch/issues",
   "homepage": "https://github.com/open-web3-stack/parachain-launch",
-  "files": [
-    "lib/*",
-    "bin/*"
-  ],
+  "files": ["lib/*", "bin/*"],
   "engine": {
     "node": ">=14"
   },

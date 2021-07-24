@@ -450,13 +450,13 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
           `${parachainNode.rpcPort || 9933 + idx}:9933`,
           `${parachainNode.port || 30333 + idx}:30333`,
         ],
-        volumes: [`${name}:/acala/data`],
+        volumes: [`${name}:/data`],
         build: {
           context: '.',
           dockerfile: `parachain-${parachain.id}.Dockerfile`,
         },
         command: [
-          '--base-path=/acala/data',
+          '--base-path=/data',
           `--chain=/app/${typeof parachain.chain === 'string' ? parachain.chain : parachain.chain.base}-${
             parachain.id
           }.json`,
