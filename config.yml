@@ -3,7 +3,7 @@ relaychain:
   image: parity/polkadot:v0.9.7 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
-    parachainsConfiguration:
+    configuration:
       config:
         validation_upgrade_frequency: 1
         validation_upgrade_delay: 1
