@@ -10,7 +10,7 @@ export interface RelayChain {
   flags: string[];
   nodes: Node[];
   runtimeGenesisConfig: {
-    parachainsConfiguration: { config: { [index: string]: string | number } };
+    configuration: { config: { [index: string]: string | number } };
   };
 }
 
