@@ -440,6 +440,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
     let nodeIdx = 0;
 
     const { key: nodeKey, address: nodeAddress } = generateNodeKey(parachain.image);
+    const volumePath = parachain.volumePath || '/data';
 
     for (const parachainNode of parachain.nodes) {
       const name = `parachain-${parachain.id}-${nodeIdx}`;
@@ -450,13 +451,13 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
           `${parachainNode.rpcPort || 9933 + idx}:9933`,
           `${parachainNode.port || 30333 + idx}:30333`,
         ],
-        volumes: [`${name}:/data`],
+        volumes: [`${name}:${volumePath}`],
         build: {
           context: '.',
           dockerfile: `parachain-${parachain.id}.Dockerfile`,
         },
         command: [
-          '--base-path=/data',
+          `--base-path=${volumePath}`,
           `--chain=/app/${typeof parachain.chain === 'string' ? parachain.chain : parachain.chain.base}-${
             parachain.id
           }.json`,

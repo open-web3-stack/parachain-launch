@@ -19,9 +19,10 @@ export interface Parachain {
   image: string;
   chain: Chain | string;
   parachain: boolean;
-  flags: string[];
-  relaychainFlags: string[];
-  env: Env;
+  flags?: string[];
+  relaychainFlags?: string[];
+  env?: Env;
+  volumePath?: string;
   nodes: Node[];
 }
 

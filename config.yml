@@ -20,7 +20,7 @@ relaychain:
       flags: # additional CLI flags for this node
         - --force-authoring
       env:
-        RUST_LOG: debug # environment varitables for this node
+        RUST_LOG: babe=debug # environment varitables for this node
     - name: bob
     - name: charlie
 
@@ -46,6 +46,7 @@ parachains:
     - --no-beefy
   env: # environment variables for this parachain nodes
     RUST_LOG: sc_basic_authorship=trace
+  volumePath: /acala/data # The path to mount volume and base path, default to /data
   nodes: # nodes config
   - wsPort: 9947
     rpcPort: 9936
@@ -55,7 +56,7 @@ parachains:
     relaychainFlags: # additional CLI flags for relaychian part
       - --name=relaychain-alice
     env:
-      RUST_LOG: debug # environment varitables for this node
+      RUST_LOG: aura=debug # environment varitables for this node
   - flags:
     - --bob
   - flags:

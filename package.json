@@ -19,7 +19,7 @@
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "lint": "polkadot-dev-run-lint",
-    "start": "node lib/index.js"
+    "start": "ts-node src/index.ts"
   },
   "dependencies": {
     "@polkadot/api": "^5.6.1",
