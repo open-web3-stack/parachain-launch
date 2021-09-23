@@ -114,6 +114,10 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
   return { state, wasm };
 };
 
+const jsonStringify = (spec: any) =>
+  // JSON.stringify will serialize big number to scientific notation such as 1e+21, which is not supported by Substrate
+  JSON.stringify(spec, (_, v) => typeof v === 'number' ? `@${BigInt(v).toString()}@` : v, 2).replace(/"@(.*?)@"/g, '$1')
+
 /**
  * Generate relay chain genesis file
  *
@@ -191,7 +195,7 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   }
 
   const tmpfile = `${shell.tempdir()}/${config.relaychain.chain}.json`;
-  fs.writeFileSync(tmpfile, JSON.stringify(spec, null, 2));
+  fs.writeFileSync(tmpfile, jsonStringify(spec));
 
   exec(
     `docker run --rm -v "${tmpfile}":/${config.relaychain.chain}.json ${config.relaychain.image} build-spec --raw --chain=/${config.relaychain.chain}.json --disable-default-bootnode > ${path}`
@@ -331,7 +335,7 @@ const generateParachainGenesisFile = (
     setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj).map((x) => x) });
   }
 
-  fs.writeFileSync(filepath, JSON.stringify(spec, null, 2));
+  fs.writeFileSync(filepath, jsonStringify(spec));
 };
 
 /**
