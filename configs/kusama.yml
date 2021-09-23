@@ -1,0 +1,82 @@
+relaychain:
+  image: parity/polkadot:v0.9.9-1
+  chain: kusama-local
+  runtimeGenesisConfig:
+    configuration:
+      config:
+        validation_upgrade_frequency: 1
+        validation_upgrade_delay: 1
+  env:
+    RUST_LOG: parachain::candidate-backing=trace,parachain::candidate-selection=trace,parachain::pvf=trace,parachain::collator-protocol=trace,parachain::provisioner=trace
+  flags:
+    - --rpc-methods=unsafe
+    - --execution=wasm
+    - --no-beefy
+  nodes:
+    - name: alice
+      wsPort: 19944
+      rpcPort: 19933
+      port: 31333
+    - name: bob
+      wsPort: false
+      rpcPort: false
+      port: false
+    - name: charlie
+      wsPort: false
+      rpcPort: false
+      port: false
+    - name: dave
+      wsPort: false
+      rpcPort: false
+      port: false
+
+parachains:
+- image: acala/karura-node:1.4.1
+  chain:
+    base: karura-dev
+    collators:
+      - alice
+    sudo: alice
+  id: 2000
+  parachain: true
+  flags:
+    - --rpc-methods=unsafe
+    - --force-authoring
+    - --execution=wasm
+  relaychainFlags:
+    - --execution=wasm
+    - --no-beefy
+  env:
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
+  volumePath: /acala/data
+  nodes:
+  - flags:
+    - --alice
+    wsPort: 19946
+    rpcPort: 19935
+    port: 31335
+
+- image: bifrostnetwork/bifrost:v0.9.0
+  chain:
+    base: bifrost-local
+    collators:
+      - alice
+    sudo: alice
+  id: 2001
+  parachain: true
+  flags:
+    - --rpc-methods=unsafe
+    - --force-authoring
+    - --execution=wasm
+  relaychainFlags:
+    - --execution=wasm
+    - --no-beefy
+  env:
+    RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
+  nodes:
+  - flags:
+    - --alice
+    wsPort: 19947
+    rpcPort: 1996
+    port: 31336
+

@@ -409,9 +409,9 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
     const name = `relaychain-${_.kebabCase(node.name)}`;
     const nodeConfig: DockerNode = {
       ports: [
-        `${node.wsPort || 9944 + idx}:9944`,
-        `${node.rpcPort || 9933 + idx}:9933`,
-        `${node.port || 30333 + idx}:30333`,
+        ...(node.wsPort === false ? [] : [`${node.wsPort || 9944 + idx}:9944`]),
+        ...(node.rpcPort === false ? [] : [`${node.rpcPort || 9933 + idx}:9933`]),
+        ...(node.port === false ? [] : [`${node.port || 30333 + idx}:30333`]),
       ],
       volumes: [`${name}:/data`],
       build: {

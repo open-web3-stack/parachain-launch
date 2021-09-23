@@ -131,4 +131,5 @@ temp/
 # End of https://www.toptal.com/developers/gitignore/api/node
 
 output/
+outputs/
 lib/

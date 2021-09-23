@@ -36,9 +36,9 @@ export interface Node {
   env: Env;
   name: string;
   flags?: string[];
-  port?: number;
-  wsPort?: number;
-  rpcPort?: number;
+  port?: number | false;
+  wsPort?: number | false;
+  rpcPort?: number | false;
   relaychainFlags?: string[];
 }
 
