@@ -116,7 +116,10 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
 
 const jsonStringify = (spec: any) =>
   // JSON.stringify will serialize big number to scientific notation such as 1e+21, which is not supported by Substrate
-  JSON.stringify(spec, (_, v) => typeof v === 'number' ? `@${BigInt(v).toString()}@` : v, 2).replace(/"@(.*?)@"/g, '$1')
+  JSON.stringify(spec, (_, v) => (typeof v === 'number' ? `@${BigInt(v).toString()}@` : v), 2).replace(
+    /"@(.*?)@"/g,
+    '$1'
+  );
 
 /**
  * Generate relay chain genesis file
