@@ -1,8 +1,8 @@
 relaychain:
-  image: parity/polkadot:v0.9.8
+  image: parity/polkadot:v0.9.11
   chain: rococo-local
   runtimeGenesisConfig:
-    parachainsConfiguration:
+    configuration:
       config:
         validation_upgrade_frequency: 1
         validation_upgrade_delay: 1
@@ -13,12 +13,13 @@ relaychain:
     - --wasm-execution=compiled
     - --execution=wasm
     - --no-beefy
+    - --disable-log-reloading
   nodes:
     - name: alice
     - name: bob
 
 parachains:
-- image: acala/karura-node:1.4.1
+- image: acala/karura-node:1.5.0
   chain:
     base: karura-dev
     collators:
