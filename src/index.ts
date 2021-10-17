@@ -503,6 +503,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
 };
 
 yargs(hideBin(process.argv))
+  .strict()
   .options({
     output: {
       alias: 'o',
