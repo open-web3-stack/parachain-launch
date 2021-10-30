@@ -18,13 +18,12 @@ relaychain:
     - name: bob
 
 parachains:
-- image: acala/karura-node:1.6.0
+- image: acala/acala-node:50f66b96
   chain:
-    base: karura-dev
-    collators:
-      - alice
-
-    sudo: alice
+    base: acala #-latest
+    # collators:
+    #   - alice
+    # sudo: alice
   id: 2000
   parachain: true
   flags:
@@ -40,6 +39,9 @@ parachains:
     RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
   volumePath: /acala/data
   nodes:
-  - flags:
-    - --alice
+    - {}
+    - {}
+    - {}
+  # - flags:
+    # - --alice
 

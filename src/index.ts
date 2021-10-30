@@ -302,7 +302,9 @@ const generateParachainGenesisFile = (
   spec.bootNodes = [];
 
   const runtime = spec.genesis.runtime;
-  runtime.parachainInfo.parachainId = id;
+  if (runtime) {
+    runtime.parachainInfo.parachainId = id;
+  }
 
   const endowed = [];
 
