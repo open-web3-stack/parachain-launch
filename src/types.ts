@@ -11,6 +11,9 @@ export interface RelayChain {
   nodes: Node[];
   runtimeGenesisConfig: {
     configuration: { config: { [index: string]: string | number } };
+    hrmp?: {
+      preopenHrmpChannels: HrmpChannelsConfig[];
+    };
   };
 }
 
@@ -68,3 +71,12 @@ export interface DockerNode {
     };
   };
 }
+
+export type HrmpChannelsConfig =
+  | {
+      sender: number;
+      recipient: number;
+      maxCapacity: number;
+      maxMessageSize: number;
+    }
+  | [number, number, number, number];

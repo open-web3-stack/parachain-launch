@@ -177,6 +177,16 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
 
   // additional patches
   if (config.relaychain.runtimeGenesisConfig) {
+    const hrmp = config.relaychain.runtimeGenesisConfig.hrmp;
+    if (hrmp) {
+      hrmp.preopenHrmpChannels = hrmp.preopenHrmpChannels.map((channel) => {
+        if (!Array.isArray(channel)) {
+          return [channel.sender, channel.recipient, channel.maxCapacity, channel.maxMessageSize];
+        } else {
+          return channel;
+        }
+      });
+    }
     _.merge(runtime, config.relaychain.runtimeGenesisConfig);
   }
 
