@@ -16,11 +16,12 @@ parachain-launch is a script that generates a docker compose file allowing you t
 
 The following options are supported by the generate script.
 
-| Option        | Description                |Required            | Default      |
-| ------------- |----------------------------|:------------------:|--------------|
-| --config      | Path to config file.       | No                 | ./config.yml |
-| --output      | Path to output dir.        | No                 | ./output     |
-| --yes         | Overwrite generated files? | No                 | false        |
+| Option        	| Description                	   |Required            | Default      |
+| ------------------|----------------------------------|:------------------:|--------------|
+| --config      	| Path to config file.             | No                 | ./config.yml |
+| --output      	| Path to output dir.              | No                 | ./output     |
+| --yes        		| Overwrite generated files?       | No                 | false        |
+| --relaychainOnly 	| whether generate relaychain only?| No                 | false        |
 
 # Global Usage
 

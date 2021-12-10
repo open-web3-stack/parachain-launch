@@ -127,8 +127,9 @@ const jsonStringify = (spec: any) =>
  * @param config
  * @param path
  * @param output
+ * @param relaychainOnly
  */
-const generateRelaychainGenesisFile = (config: Config, path: string, output: string) => {
+const generateRelaychainGenesisFile = (config: Config, path: string, output: string, relaychainOnly: boolean) => {
   const relaychain = config.relaychain;
 
   if (!relaychain) {
@@ -191,20 +192,22 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   }
 
   // genesis parachains
-  for (const parachain of config.parachains) {
-    const { wasm, state } = exportParachainGenesis(parachain, output);
-    if (!parachain.id) {
-      return fatal('Missing parachains[].id');
+  if (!relaychainOnly) {
+    for (const parachain of config.parachains) {
+      const { wasm, state } = exportParachainGenesis(parachain, output);
+      if (!parachain.id) {
+        return fatal('Missing parachains[].id');
+      }
+      const para = [
+        parachain.id,
+        {
+          genesis_head: state,
+          validation_code: wasm,
+          parachain: parachain.parachain,
+        },
+      ];
+      runtime.paras.paras.push(para);
     }
-    const para = [
-      parachain.id,
-      {
-        genesis_head: state,
-        validation_code: wasm,
-        parachain: parachain.parachain,
-      },
-    ];
-    runtime.paras.paras.push(para);
   }
 
   const tmpfile = `${shell.tempdir()}/${config.relaychain.chain}.json`;
@@ -359,8 +362,9 @@ const generateParachainGenesisFile = (
  * @param config
  * @param output
  * @param yes
+ * @param relaychainOnly
  */
-const generateDockerfiles = (config: Config, output: string, yes: boolean) => {
+const generateDockerfiles = (config: Config, output: string, yes: boolean, relaychainOnly: boolean) => {
   const relaychainDockerfilePath = path.join(output, 'relaychain.Dockerfile');
   checkOverrideFile(relaychainDockerfilePath, yes);
 
@@ -368,13 +372,15 @@ const generateDockerfiles = (config: Config, output: string, yes: boolean) => {
 
   fs.writeFileSync(relaychainDockerfilePath, relaychainDockerfile.join('\n'));
 
-  for (const parachain of config.parachains) {
-    const parachainDockerfilePath = path.join(output, `parachain-${parachain.id}.Dockerfile`);
-    checkOverrideFile(parachainDockerfilePath, yes);
+  if (!relaychainOnly) {
+    for (const parachain of config.parachains) {
+      const parachainDockerfilePath = path.join(output, `parachain-${parachain.id}.Dockerfile`);
+      checkOverrideFile(parachainDockerfilePath, yes);
 
-    const parachainDockerfile = [`FROM ${parachain.image}`, 'COPY . /app'];
+      const parachainDockerfile = [`FROM ${parachain.image}`, 'COPY . /app'];
 
-    fs.writeFileSync(parachainDockerfilePath, parachainDockerfile.join('\n'));
+      fs.writeFileSync(parachainDockerfilePath, parachainDockerfile.join('\n'));
+    }
   }
 };
 
@@ -384,7 +390,10 @@ const generateDockerfiles = (config: Config, output: string, yes: boolean) => {
  * @param config
  * @param args
  */
-const generate = async (config: Config, { output, yes }: { output: string; yes: boolean }) => {
+const generate = async (
+  config: Config,
+  { output, yes, relaychainOnly }: { output: string; yes: boolean; relaychainOnly: boolean }
+) => {
   await cryptoWaitReady();
 
   if (!config?.relaychain?.chain) {
@@ -399,12 +408,14 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
 
   fs.mkdirSync(output, { recursive: true });
 
-  for (const parachain of config.parachains) {
-    generateParachainGenesisFile(parachain.id, parachain.image, parachain.chain, output, yes);
+  if (!relaychainOnly) {
+    for (const parachain of config.parachains) {
+      generateParachainGenesisFile(parachain.id, parachain.image, parachain.chain, output, yes);
+    }
   }
 
-  generateRelaychainGenesisFile(config, relaychainGenesisFilePath, output);
-  generateDockerfiles(config, output, yes);
+  generateRelaychainGenesisFile(config, relaychainGenesisFilePath, output, relaychainOnly);
+  generateDockerfiles(config, output, yes, relaychainOnly);
 
   const dockerCompose: DockerConfig = {
     version: '3.7',
@@ -455,57 +466,59 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
     ++idx;
   }
 
-  for (const parachain of config.parachains) {
-    let nodeIdx = 0;
+  if (!relaychainOnly) {
+    for (const parachain of config.parachains) {
+      let nodeIdx = 0;
 
-    const { key: nodeKey, address: nodeAddress } = generateNodeKey(parachain.image);
-    const volumePath = parachain.volumePath || '/data';
+      const { key: nodeKey, address: nodeAddress } = generateNodeKey(parachain.image);
+      const volumePath = parachain.volumePath || '/data';
 
-    for (const parachainNode of parachain.nodes) {
-      const name = `parachain-${parachain.id}-${nodeIdx}`;
+      for (const parachainNode of parachain.nodes) {
+        const name = `parachain-${parachain.id}-${nodeIdx}`;
 
-      const nodeConfig: DockerNode = {
-        ports: [
-          `${parachainNode.wsPort || 9944 + idx}:9944`,
-          `${parachainNode.rpcPort || 9933 + idx}:9933`,
-          `${parachainNode.port || 30333 + idx}:30333`,
-        ],
-        volumes: [`${name}:${volumePath}`],
-        build: {
-          context: '.',
-          dockerfile: `parachain-${parachain.id}.Dockerfile`,
-        },
-        command: [
-          `--base-path=${volumePath}`,
-          `--chain=/app/${typeof parachain.chain === 'string' ? parachain.chain : parachain.chain.base}-${
-            parachain.id
-          }.json`,
-          '--ws-external',
-          '--rpc-external',
-          '--rpc-cors=all',
-          `--name=${name}`,
-          '--collator',
-          `--parachain-id=${parachain.id}`,
-          ...(parachain.flags || []),
-          ...(parachainNode.flags || []),
-          nodeIdx === 0
-            ? `--node-key=${nodeKey}`
-            : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/30333/p2p/${nodeAddress}`,
-          '--listen-addr=/ip4/0.0.0.0/tcp/30333',
-          '--',
-          `--chain=/app/${config.relaychain.chain}.json`,
-          ...(parachain.relaychainFlags || []),
-          ...(parachainNode.relaychainFlags || []),
-        ],
-        environment: _.assign({}, parachain.env, parachainNode.env),
-        ulimits,
-      };
+        const nodeConfig: DockerNode = {
+          ports: [
+            `${parachainNode.wsPort || 9944 + idx}:9944`,
+            `${parachainNode.rpcPort || 9933 + idx}:9933`,
+            `${parachainNode.port || 30333 + idx}:30333`,
+          ],
+          volumes: [`${name}:${volumePath}`],
+          build: {
+            context: '.',
+            dockerfile: `parachain-${parachain.id}.Dockerfile`,
+          },
+          command: [
+            `--base-path=${volumePath}`,
+            `--chain=/app/${typeof parachain.chain === 'string' ? parachain.chain : parachain.chain.base}-${
+              parachain.id
+            }.json`,
+            '--ws-external',
+            '--rpc-external',
+            '--rpc-cors=all',
+            `--name=${name}`,
+            '--collator',
+            `--parachain-id=${parachain.id}`,
+            ...(parachain.flags || []),
+            ...(parachainNode.flags || []),
+            nodeIdx === 0
+              ? `--node-key=${nodeKey}`
+              : `--bootnodes=/dns/parachain-${parachain.id}-0/tcp/30333/p2p/${nodeAddress}`,
+            '--listen-addr=/ip4/0.0.0.0/tcp/30333',
+            '--',
+            `--chain=/app/${config.relaychain.chain}.json`,
+            ...(parachain.relaychainFlags || []),
+            ...(parachainNode.relaychainFlags || []),
+          ],
+          environment: _.assign({}, parachain.env, parachainNode.env),
+          ulimits,
+        };
 
-      dockerCompose.services[name] = nodeConfig;
-      dockerCompose.volumes[name] = null;
+        dockerCompose.services[name] = nodeConfig;
+        dockerCompose.volumes[name] = null;
 
-      ++nodeIdx;
-      ++idx;
+        ++nodeIdx;
+        ++idx;
+      }
     }
   }
 
@@ -528,6 +541,12 @@ yargs(hideBin(process.argv))
       type: 'boolean',
       default: false,
       description: 'Yes for options',
+    },
+    relaychainOnly: {
+      alias: 'r',
+      type: 'boolean',
+      default: false,
+      description: 'whether generate relaychain only',
     },
   })
   .command(
