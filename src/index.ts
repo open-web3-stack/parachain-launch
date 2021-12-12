@@ -551,6 +551,10 @@ yargs(hideBin(process.argv))
       }
 
       if (config) {
+        // no parachains config(relaychain only)
+        if (!config.parachains) {
+          config.parachains = [];
+        }
         generate(config, argv).catch(fatal);
       }
     }
