@@ -1,15 +1,15 @@
-import { Keyring } from '@polkadot/api';
-import { cryptoWaitReady, decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import YAML from 'yaml';
 import fs from 'fs';
-import _ from 'lodash';
 import path from 'path';
 import readline from 'readline-sync';
 import shell from 'shelljs';
-import YAML from 'yaml';
+import { Keyring } from '@polkadot/api';
+import { cryptoWaitReady, encodeAddress, decodeAddress } from '@polkadot/util-crypto';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { Chain, Config, DockerConfig, DockerNode, Parachain } from './types';
+import _ from 'lodash';
 
+import { Config, Parachain, Chain, DockerConfig, DockerNode } from './types';
 
 /**
  * Check can override file
@@ -552,7 +552,7 @@ yargs(hideBin(process.argv))
 
       if (config) {
         // no parachains config(relaychain only)
-        if (! config.parachains) {
+        if (!config.parachains) {
           config.parachains = [];
         }
         generate(config, argv).catch(fatal);
