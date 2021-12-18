@@ -102,10 +102,6 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
   );
   const wasm = res2.stdout.trim();
 
-  if (parachain.id) {
-    args.push(`--parachain-id=${parachain.id}`);
-  }
-
   const res = exec(
     `docker run -v $(pwd)/"${output}":/app --rm ${parachain.image} export-genesis-state ${args.join(' ')}`
   );
@@ -311,6 +307,8 @@ const generateParachainGenesisFile = (
 
   spec.bootNodes = [];
 
+  // Replace `paraId` and `parachainId` with the specified parachain-id.
+  spec.paraId = id;
   const runtime = spec.genesis.runtime;
   if (runtime) {
     runtime.parachainInfo.parachainId = id;
@@ -485,7 +483,6 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
           '--rpc-cors=all',
           `--name=${name}`,
           '--collator',
-          `--parachain-id=${parachain.id}`,
           ...(parachain.flags || []),
           ...(parachainNode.flags || []),
           nodeIdx === 0
