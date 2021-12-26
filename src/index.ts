@@ -308,7 +308,11 @@ const generateParachainGenesisFile = (
   spec.bootNodes = [];
 
   // Replace `paraId` and `parachainId` with the specified parachain-id.
-  spec.paraId = id;
+  if (spec.para_id) {
+    spec.para_id = id;
+  } else {
+    spec.paraId = id;
+  }
   const runtime = spec.genesis.runtime;
   if (runtime) {
     runtime.parachainInfo.parachainId = id;
