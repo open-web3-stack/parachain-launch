@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v0.9.9-1 # the docker image to use
+  image: parity/polkadot:v0.9.13 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -27,14 +27,21 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: acala/karura-node:1.3.0
+- image: acala/karura-node:2.1.1
   chain: # this could be a string like `dev` or a config object
     base: karura-dev # the chain to use
     collators: # override collators
       - alice # this imply //Alice
-      - rXMrmePtNnyZ61hvpjfEEZ1zmKzueUnTqijDncTzE8Wa2sJ # or could be a session key public address
+      - 5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty # or could be a session key public address
       - charlie
     sudo: alice # override sudo key to //Alice
+    runtimeGenesisConfig: # additonal genesis override
+      balances:
+        balances:
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, 10000000000000000]
+      tokens:
+        balances:
+          - [5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty, { token: 'KUSD' }, 10000000000000000]
   id: 2000 # override parachain id
   parachain: true # this is parachain, not parathread
   flags: # CLI flags for this parachain nodes

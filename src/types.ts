@@ -10,7 +10,7 @@ export interface RelayChain {
   flags: string[];
   nodes: Node[];
   runtimeGenesisConfig: {
-    configuration: { config: { [index: string]: string | number } };
+    configuration?: { config: { [index: string]: string | number } };
     hrmp?: {
       preopenHrmpChannels: HrmpChannelsConfig[];
     };
@@ -33,6 +33,12 @@ export interface Chain {
   base: string;
   collators?: string[];
   sudo?: string;
+  runtimeGenesisConfig?: {
+    balances?: { balances: [string, number][] };
+    tokens?: { balances: [string, any, number][] };
+    parachainInfo?: { parachainId: number };
+    [key: string]: any;
+  };
 }
 
 export interface Node {

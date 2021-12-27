@@ -1,6 +1,6 @@
 {
   "name": "@open-web3/parachain-launch",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "author": "Laminar Developers <hello@laminar.one>",
   "license": "Apache-2.0",
   "main": "lib/index.js",
