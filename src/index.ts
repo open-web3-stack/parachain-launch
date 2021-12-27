@@ -345,11 +345,20 @@ const generateParachainGenesisFile = (
     for (const [addr, val] of balances) {
       balObj[addr] = val;
     }
+    if (chain.runtimeGenesisConfig?.balances) {
+      for (const [addr, val] of chain.runtimeGenesisConfig.balances.balances) {
+        balObj[addr] = (balObj[addr] || 0) + val;
+      }
+      delete chain.runtimeGenesisConfig.balances;
+    }
     for (const addr of endowed) {
-      // TODO: https://github.com/open-web3-stack/parachain-launch/issues/5
       balObj[addr] = (balObj[addr] || 0) + Math.pow(10, decimals) * 1000;
     }
-    setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj).map((x) => x) });
+    setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj) });
+  }
+
+  if (chain.runtimeGenesisConfig) {
+    _.merge(runtime, chain.runtimeGenesisConfig);
   }
 
   fs.writeFileSync(filepath, jsonStringify(spec));
