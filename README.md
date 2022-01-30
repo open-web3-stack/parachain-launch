@@ -35,7 +35,7 @@ yarn global add @open-web3/parachain-launch
 3. Run the generate script:
 
 ```sh
-parahain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
+parachain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
 ```
 
 This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.
