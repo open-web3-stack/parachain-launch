@@ -22,7 +22,6 @@ relaychain:
   flags:
     - --rpc-methods=unsafe
     - --execution=wasm
-    - --beefy
   nodes:
     - name: alice
       wsPort: 19944
@@ -56,7 +55,6 @@ parachains:
     - --execution=wasm
   relaychainFlags:
     - --execution=wasm
-    - --beefy
   env:
     RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
   volumePath: /acala/data
@@ -81,7 +79,6 @@ parachains:
     - --execution=wasm
   relaychainFlags:
     - --execution=wasm
-    - --beefy
   env:
     RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
   nodes:

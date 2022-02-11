@@ -12,7 +12,6 @@ relaychain:
     - --rpc-methods=unsafe
     - --wasm-execution=compiled
     - --execution=wasm
-    - --beefy
   nodes:
     - name: alice
     - name: bob
