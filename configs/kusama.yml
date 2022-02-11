@@ -1,11 +1,11 @@
 relaychain:
-  image: parity/polkadot:v0.9.9-1
+  image: parity/polkadot:v0.9.16
   chain: kusama-local
   runtimeGenesisConfig:
     configuration:
       config:
-        validation_upgrade_frequency: 1
-        validation_upgrade_delay: 1
+        validation_upgrade_cooldown: 10
+        validation_upgrade_delay: 10
     # enable hrmp channels after: https://github.com/paritytech/polkadot/pull/4324
     # hrmp:
     #   preopenHrmpChannels:
@@ -22,7 +22,6 @@ relaychain:
   flags:
     - --rpc-methods=unsafe
     - --execution=wasm
-    - --no-beefy
   nodes:
     - name: alice
       wsPort: 19944
@@ -42,7 +41,7 @@ relaychain:
       port: false
 
 parachains:
-- image: acala/karura-node:1.4.1
+- image: acala/karura-node:2.3.1
   chain:
     base: karura-dev
     collators:
@@ -56,7 +55,6 @@ parachains:
     - --execution=wasm
   relaychainFlags:
     - --execution=wasm
-    - --no-beefy
   env:
     RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
   volumePath: /acala/data
@@ -67,7 +65,7 @@ parachains:
     rpcPort: 19935
     port: 31335
 
-- image: bifrostnetwork/bifrost:v0.9.0
+- image: bifrostnetwork/bifrost:v0.9.25-1
   chain:
     base: bifrost-local
     collators:
@@ -81,7 +79,6 @@ parachains:
     - --execution=wasm
   relaychainFlags:
     - --execution=wasm
-    - --no-beefy
   env:
     RUST_LOG: sc_basic_authorship=trace,cumulus-consensus=trace,cumulus-collator=trace,collator_protocol=trace,collation_generation=trace,aura=debug
   nodes:
