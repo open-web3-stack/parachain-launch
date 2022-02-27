@@ -57,13 +57,34 @@ const fatal = (...args: any[]) => {
 };
 
 /**
+ * Optionally strip the chain name if it ends with .json
+ * e.g. /home/foo/bar/dev.json => dev
+ *
+ * @param chain
+ */
+const stripChainspecJsonName = (chain: string) => {
+  if (!chain.endsWith('.json')) {
+    return chain;
+  }
+
+  return path.parse(chain.substring(chain.lastIndexOf('/') + 1)).name;
+};
+
+/**
  * Get chain spec
  *
  * @param image
  * @param chain
  */
 const getChainspec = (image: string, chain: string) => {
-  const res = exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode`);
+  let res;
+  if (chain.endsWith('.json')) {
+    res = exec(
+      `docker run -v ${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode`
+    );
+  } else {
+    res = exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode`);
+  }
 
   let spec;
 
@@ -90,21 +111,14 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
   const args = [];
 
   if (parachain.chain) {
-    args.push(
-      `--chain=/app/${typeof parachain.chain === 'string' ? parachain.chain : parachain.chain.base}-${
-        parachain.id
-      }.json`
-    );
+    args.push(`--chain=/app/${getChainspecName(parachain.chain, parachain.id)}`);
   }
 
-  const res2 = exec(
-    `docker run -v $(pwd)/"${output}":/app --rm ${parachain.image} export-genesis-wasm ${args.join(' ')}`
-  );
+  const absOutput = output.startsWith('/') ? output : `$(pwd)/"${output}"`;
+  const res2 = exec(`docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-wasm ${args.join(' ')}`);
   const wasm = res2.stdout.trim();
 
-  const res = exec(
-    `docker run -v $(pwd)/"${output}":/app --rm ${parachain.image} export-genesis-state ${args.join(' ')}`
-  );
+  const res = exec(`docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-state ${args.join(' ')}`);
   const state = res.stdout.trim();
 
   return { state, wasm };
@@ -269,6 +283,17 @@ const setParachainRuntimeValue = (runtime: { [index: string]: any }, key: string
 };
 
 /**
+ * Construct the parachain spec name
+ *
+ * @param chain
+ * @param id
+ */
+const getChainspecName = (chain: Chain | string, id: number) => {
+  const chainName = typeof chain === 'string' ? chain : chain.base;
+  return `${stripChainspecJsonName(chainName)}-${id}.json`;
+};
+
+/**
  * Generate parachain genesis file
  *
  * @param id
@@ -298,7 +323,7 @@ const generateParachainGenesisFile = (
     return fatal('Missing paras[].chain.base');
   }
 
-  const specname = `${chain.base}-${id}.json`;
+  const specname = getChainspecName(chain, id);
   const filepath = path.join(output, specname);
 
   checkOverrideFile(filepath, yes);
@@ -488,9 +513,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
         },
         command: [
           `--base-path=${volumePath}`,
-          `--chain=/app/${typeof parachain.chain === 'string' ? parachain.chain : parachain.chain.base}-${
-            parachain.id
-          }.json`,
+          `--chain=/app/${getChainspecName(parachain.chain, parachain.id)}`,
           '--ws-external',
           '--rpc-external',
           '--rpc-cors=all',
@@ -557,7 +580,7 @@ yargs(hideBin(process.argv))
         const configFile = fs.readFileSync(configPath, 'utf8');
         config = YAML.parse(configFile);
       } catch (e) {
-        console.error('Invalid config file:', configPath);
+        console.error('Invalid config file:', configPath, e);
       }
 
       if (config) {
