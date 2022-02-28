@@ -22,7 +22,7 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@polkadot/api": "^5.6.1",
+    "@polkadot/api": "^7.10.1",
     "@polkadot/keyring": "^7.2.1",
     "@polkadot/util": "^7.2.1",
     "@polkadot/util-crypto": "^7.2.1",
