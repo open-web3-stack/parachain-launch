@@ -41,7 +41,7 @@
     "@types/readline-sync": "^1.4.4",
     "@types/shelljs": "^0.8.11",
     "@types/yargs": "^17.0.8",
-    "ts-node": "^10.5.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.5.5"
   },
   "bin": "./bin/parachain-launch"
