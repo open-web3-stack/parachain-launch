@@ -96,19 +96,8 @@ Remove all of the containers:
 docker-compose rm
 ```
 
-# Resetting all data
-
-If you want to clear the data and restart the you will need to clear the volumes.
-
-Remove volume:
+Remove all of the containers and volumes (This will wipe any existing chain data):
 
 ```sh
-docker volume ls
-docker volume rm [volume_name]
-```
-
-Prune all volumes:
-
-```sh
-docker volume prune
+docker-compose down -v
 ```
