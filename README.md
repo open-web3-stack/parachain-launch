@@ -1,6 +1,6 @@
 # parachain-launch
 
-- [Introducation](#introduction)
+- [Introduction](#introduction)
 - [Options](#options)
 - [Global Usage](#global-usage)
 - [Local Usage](#local-usage)
