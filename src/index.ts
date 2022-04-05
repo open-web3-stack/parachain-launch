@@ -426,6 +426,9 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
   if (!config?.relaychain?.chain) {
     return fatal('Missing relaychain.chain');
   }
+  if (!config?.relaychain?.image) {
+    return fatal('Missing relaychain.image');
+  }
 
   const relaychainGenesisFilePath = path.join(output, `${config.relaychain.chain}.json`);
   checkOverrideFile(relaychainGenesisFilePath, yes);
@@ -494,7 +497,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
   for (const parachain of config.parachains) {
     let nodeIdx = 0;
 
-    const { key: nodeKey, address: nodeAddress } = generateNodeKey(parachain.image);
+    const { key: nodeKey, address: nodeAddress } = generateNodeKey(config.relaychain.image);
     const volumePath = parachain.volumePath || '/data';
 
     for (const parachainNode of parachain.nodes) {
