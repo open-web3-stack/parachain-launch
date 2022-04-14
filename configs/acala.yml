@@ -1,5 +1,5 @@
 relaychain:
-  image: parity/polkadot:v0.9.16
+  image: parity/polkadot:v0.9.18
   chain: rococo-local
   runtimeGenesisConfig:
     configuration:
@@ -17,9 +17,9 @@ relaychain:
     - name: bob
 
 parachains:
-- image: acala/acala-node:2.3.1
+- image: acala/acala-node:2.5.0
   chain:
-    base: acala-latest
+    base: acala-dev
     collators:
       - alice
     sudo: alice
@@ -39,4 +39,3 @@ parachains:
   nodes:
   - flags:
     - --alice
-
