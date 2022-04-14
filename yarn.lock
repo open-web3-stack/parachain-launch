@@ -1674,21 +1674,6 @@
     typescript "^4.6.3"
     yargs "^17.4.0"
 
-"@open-web3/parachain-launch@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@open-web3/parachain-launch/-/parachain-launch-1.2.0.tgz#3873019b632b37dd7e7d6bbb696867445f772920"
-  integrity sha512-XHzY7OHZm5BdxmMI0jY0VhYnGofJQ+btmlZvxc5GaDso9m+Y9s9kvLbm/HtGiCiEUUmnEuQ+K4/0fpnwOGJGOA==
-  dependencies:
-    "@polkadot/api" "^7.15.1"
-    "@polkadot/keyring" "^8.4.1"
-    "@polkadot/util" "^8.4.1"
-    "@polkadot/util-crypto" "^8.4.1"
-    lodash "^4.17.21"
-    readline-sync "^1.4.10"
-    shelljs "^0.8.5"
-    yaml "^1.10.2"
-    yargs "^17.4.0"
-
 "@polkadot/api-augment@7.15.1":
   version "7.15.1"
   resolved "https://registry.yarnpkg.com/@polkadot/api-augment/-/api-augment-7.15.1.tgz#120b766feeaa96996f1c6717a5261c2e0845c1e0"

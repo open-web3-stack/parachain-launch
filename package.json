@@ -22,12 +22,9 @@
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "lint": "polkadot-dev-run-lint",
-    "start": "ts-node src/index.ts",
-    "generate:acala": "npx parachain-launch generate --config=configs/acala.yml --y",
-    "generate:karura": "npx parachain-launch generate --config=configs/karura.yml --y"
+    "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@open-web3/parachain-launch": "^1.2.0",
     "@polkadot/api": "^7.15.1",
     "@polkadot/keyring": "^8.4.1",
     "@polkadot/util": "^8.4.1",
