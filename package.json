@@ -36,7 +36,7 @@
     "yargs": "^17.4.0"
   },
   "devDependencies": {
-    "@open-web3/dev-config": "^0.2.1",
+    "@open-web3/dev-config": "^0.2.2",
     "@types/lodash": "^4.14.181",
     "@types/readline-sync": "^1.4.4",
     "@types/shelljs": "^0.8.11",
