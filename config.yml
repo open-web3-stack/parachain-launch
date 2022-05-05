@@ -58,7 +58,7 @@ parachains:
     port: 30336
     flags: # additional CLI flags for this node
       - --alice
-    relaychainFlags: # additional CLI flags for relaychian part
+    relaychainFlags: # additional CLI flags for relaychain part
       - --name=relaychain-alice
     env:
       RUST_LOG: aura=debug # environment varitables for this node
