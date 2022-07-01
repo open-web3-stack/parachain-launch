@@ -1608,10 +1608,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@open-web3/dev-config@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@open-web3/dev-config/-/dev-config-0.2.2.tgz#43257e2d650a30ab4dcbbbb22ee5c5a7b5e59aa1"
-  integrity sha512-NnQR/0Yed6KMa2Pquhv/G3fmQgAhvPGXEaFMrPAedkqk9idNtYV8z6wDxCrVdEGqaX5wf6L6RzuGsuBQRVucrg==
+"@open-web3/dev-config@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@open-web3/dev-config/-/dev-config-0.2.3.tgz#e4f83c2d6d3184f688df6ca4fa60b9ad6127eed6"
+  integrity sha512-5ql5UQ8JdCOIc1p7pZ8pVdPmfLpCFayIFmkxBQ7+hnei8zw4eToEYK+bxOHKCu9LsSuiNKQQpSJp+lv1gGBlPg==
   dependencies:
     "@babel/cli" "^7.17.6"
     "@babel/core" "^7.17.8"
