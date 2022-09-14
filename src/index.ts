@@ -80,7 +80,7 @@ const getChainspec = (image: string, chain: string) => {
   let res;
   if (chain.endsWith('.json')) {
     res = exec(
-      `docker run -v ${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode`
+      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode`
     );
   } else {
     res = exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode`);
