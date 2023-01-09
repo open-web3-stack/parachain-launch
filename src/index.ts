@@ -154,9 +154,9 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   const spec = getChainspec(relaychain.image, relaychain.chain);
 
   // clear authorities
-  const runtime = spec.genesis.runtime.runtime_genesis_config || spec.genesis.runtime;
+  const runtime = spec.genesis.runtime;
 
-  const sessionKeys = runtime.session.keys;
+  const sessionKeys = runtime.runtime_genesis_config.session.keys || runtime.session.keys;
   sessionKeys.length = 0;
 
   // add authorities from config
@@ -186,8 +186,8 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   }
 
   // additional patches
-  if (config.relaychain.runtimeGenesisConfig) {
-    const hrmp = config.relaychain.runtimeGenesisConfig.hrmp;
+  if (config.relaychain.runtime.runtimeGenesisConfig) {
+    const hrmp = config.relaychain.runtime.runtimeGenesisConfig.hrmp;
     if (hrmp) {
       hrmp.preopenHrmpChannels = hrmp.preopenHrmpChannels.map((channel) => {
         if (!Array.isArray(channel)) {
@@ -197,7 +197,10 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
         }
       });
     }
-    _.merge(runtime, config.relaychain.runtimeGenesisConfig);
+    _.merge(runtime.runtime_genesis_config, config.relaychain.runtime.runtimeGenesisConfig);
+    if (config.relaychain.runtime.session_length_in_blocks) {
+      runtime.session_length_in_blocks = config.relaychain.runtime.session_length_in_blocks;
+    }
   }
 
   // genesis parachains
@@ -214,7 +217,7 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
         parachain: parachain.parachain,
       },
     ];
-    runtime.paras.paras.push(para);
+    (runtime.runtime_genesis_config || runtime).paras.paras.push(para);
   }
 
   const tmpfile = `${shell.tempdir()}/${config.relaychain.chain}.json`;
