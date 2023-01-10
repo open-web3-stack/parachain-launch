@@ -186,8 +186,8 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   }
 
   // additional patches
-  if (config.relaychain.runtime.runtimeGenesisConfig) {
-    const hrmp = config.relaychain.runtime.runtimeGenesisConfig.hrmp;
+  if (config.relaychain.runtimeGenesisConfig) {
+    const hrmp = config.relaychain.runtimeGenesisConfig.hrmp;
     if (hrmp) {
       hrmp.preopenHrmpChannels = hrmp.preopenHrmpChannels.map((channel) => {
         if (!Array.isArray(channel)) {
@@ -197,10 +197,8 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
         }
       });
     }
-    _.merge(runtime.runtime_genesis_config, config.relaychain.runtime.runtimeGenesisConfig);
-    if (config.relaychain.runtime.session_length_in_blocks) {
-      runtime.session_length_in_blocks = config.relaychain.runtime.session_length_in_blocks;
-    }
+    _.merge(runtime.runtime_genesis_config, config.relaychain.runtimeGenesisConfig);
+    _.merge(runtime, config.relaychain.overrides)
   }
 
   // genesis parachains

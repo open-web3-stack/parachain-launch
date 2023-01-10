@@ -2,12 +2,12 @@
 relaychain:
   image: parity/polkadot:v0.9.16 # the docker image to use
   chain: rococo-local # the chain to use
-  runtime:
-    runtimeGenesisConfig: # additonal genesis override
-      configuration:
-        config:
-          validation_upgrade_cooldown: 10
-          validation_upgrade_delay: 10
+  runtimeGenesisConfig: # additonal genesis override
+    configuration:
+      config:
+        validation_upgrade_cooldown: 10
+        validation_upgrade_delay: 10
+  overrides: # additonal runtime override
     session_length_in_blocks: 100
   env: # environment variables for all relaychain nodes
     RUST_LOG: parachain::candidate-backing=trace

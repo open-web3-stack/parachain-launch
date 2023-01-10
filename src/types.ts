@@ -9,15 +9,13 @@ export interface RelayChain {
   chain: string;
   flags: string[];
   nodes: Node[];
-  runtime: {
-    runtimeGenesisConfig: {
-      configuration?: { config: { [index: string]: string | number } };
-      hrmp?: {
-        preopenHrmpChannels: HrmpChannelsConfig[];
-      };
+  runtimeGenesisConfig: {
+    configuration?: { config: { [index: string]: string | number } };
+    hrmp?: {
+      preopenHrmpChannels: HrmpChannelsConfig[];
     };
-    session_length_in_blocks?: number;
   };
+  overrides: any;
 }
 
 export interface Parachain {
