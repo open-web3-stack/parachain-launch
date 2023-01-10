@@ -15,6 +15,7 @@ export interface RelayChain {
       preopenHrmpChannels: HrmpChannelsConfig[];
     };
   };
+  overrides: { [index: string]: string | number | boolean | object };
 }
 
 export interface Parachain {
