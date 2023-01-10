@@ -198,7 +198,7 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
       });
     }
     _.merge(runtime.runtime_genesis_config, config.relaychain.runtimeGenesisConfig);
-    _.merge(runtime, config.relaychain.overrides)
+    _.merge(runtime, config.relaychain.overrides);
   }
 
   // genesis parachains
