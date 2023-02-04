@@ -53,7 +53,7 @@ yarn add @open-web3/parachain-launch
 3. Run the service from within the local directory:
 
 ```sh
-node_modules/.bin/parahain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
+node_modules/.bin/parachain-launch generate --config=/path/to/config.yml [--yes] [--output=/path/to/output]
 ```
 
 This will generate the docker files a folder called `output` in your current working directory or in the directory provided to the `--output` option.
