@@ -20,6 +20,6 @@ jobs:
       - name: publish
         run: yarn npm publish --tolerate-republish --access public
         env:
-            NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+            NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: |
           git checkout ./.yarnrc.yml
