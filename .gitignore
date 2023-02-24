@@ -133,3 +133,10 @@ temp/
 output/
 outputs/
 lib/
+
+.yarn/*
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
