@@ -25,18 +25,18 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@polkadot/api": "^9.13.2",
-    "@polkadot/keyring": "^10.2.1",
-    "@polkadot/util": "^10.2.1",
-    "@polkadot/util-crypto": "^10.2.1",
+    "@polkadot/api": "^9.14.2",
+    "@polkadot/keyring": "^10.4.2",
+    "@polkadot/util": "^10.4.2",
+    "@polkadot/util-crypto": "^10.4.2",
     "lodash": "^4.17.21",
     "readline-sync": "^1.4.10",
     "shelljs": "^0.8.5",
     "yaml": "^2.2.1",
-    "yargs": "^17.6.2"
+    "yargs": "^17.7.1"
   },
   "devDependencies": {
-    "@open-web3/dev-config": "^0.2.8",
+    "@open-web3/dev-config": "^0.2.9",
     "@types/lodash": "^4.14.191",
     "@types/readline-sync": "^1.4.4",
     "@types/shelljs": "^0.8.11",
