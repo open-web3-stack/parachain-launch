@@ -5,6 +5,7 @@ import readline from 'readline-sync';
 import shell from 'shelljs';
 import { Keyring } from '@polkadot/api';
 import { cryptoWaitReady, encodeAddress, decodeAddress } from '@polkadot/util-crypto';
+import { waitReady } from '@polkadot/wasm-crypto';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import _ from 'lodash';
@@ -423,6 +424,7 @@ const generateDockerfiles = (config: Config, output: string, yes: boolean) => {
  */
 const generate = async (config: Config, { output, yes }: { output: string; yes: boolean }) => {
   await cryptoWaitReady();
+  await waitReady();
 
   if (!config?.relaychain?.chain) {
     return fatal('Missing relaychain.chain');
