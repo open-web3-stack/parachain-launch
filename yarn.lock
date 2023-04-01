@@ -2332,7 +2332,7 @@ __metadata:
     "@open-web3/dev-config": ^0.2.9
     "@polkadot/api": ^9.14.2
     "@polkadot/keyring": ^10.4.2
-    "@polkadot/util": ^11.1.2
+    "@polkadot/util": ^11.1.3
     "@polkadot/util-crypto": ^10.4.2
     "@types/lodash": ^4.14.192
     "@types/readline-sync": ^1.4.4
@@ -2607,18 +2607,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/util@npm:^11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/util@npm:11.1.2"
+"@polkadot/util@npm:^11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/util@npm:11.1.3"
   dependencies:
-    "@polkadot/x-bigint": 11.1.2
-    "@polkadot/x-global": 11.1.2
-    "@polkadot/x-textdecoder": 11.1.2
-    "@polkadot/x-textencoder": 11.1.2
+    "@polkadot/x-bigint": 11.1.3
+    "@polkadot/x-global": 11.1.3
+    "@polkadot/x-textdecoder": 11.1.3
+    "@polkadot/x-textencoder": 11.1.3
     "@types/bn.js": ^5.1.1
     bn.js: ^5.2.1
     tslib: ^2.5.0
-  checksum: a44c24a65f5645e76dc0088ed03ff9206ea78c6b333f558f31dee9f5d60b61f67fd37a71c0aae512c2d4757536dbca4ea604014cd5c6aac374ab0cc6fb86c37f
+  checksum: 69c5083c65ea4c4f186e08a3ddbae50111309bdec7908487516eceb93e218d470156d26d2dfbb17713423ff32c4995f994cc10317c22d6fa7202d5d722549908
   languageName: node
   linkType: hard
 
@@ -2710,13 +2710,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-bigint@npm:11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-bigint@npm:11.1.2"
+"@polkadot/x-bigint@npm:11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-bigint@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 83d834c53ad9c3fd63365d2c33d800cd16897df6a0d363f0224129ea506c7f8bb2aab683284377208fb3b6915c35cc92bac3b989dcfbd4c2a42cda899f84844e
+  checksum: e7d72b8bb1fafb0db8cfc66e5a8fff4559d0c6f6d60f29ed554ea6c278c0438cf0f1d1a87556e364d86675c821658b791df75b3072dcdea40c6cb0049d462833
   languageName: node
   linkType: hard
 
@@ -2741,12 +2741,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-global@npm:11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-global@npm:11.1.2"
+"@polkadot/x-global@npm:11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-global@npm:11.1.3"
   dependencies:
     tslib: ^2.5.0
-  checksum: dc6e4af5a4753e5043a38156fcc756f0c3d22b8b1d5a1ec98c555da2e2894486f6256b50d280e426524b89dd817a09d197322e49e40eb0190f41fdc252e2ea2c
+  checksum: 997b843e519168e9b845f5e67129aef2673761f9398fe51015f717eb65cb9aa393836cc9d8ed70668b84a0e1a0a73f8cd6810beb638fed9c8a8b5c7ebeee8ab3
   languageName: node
   linkType: hard
 
@@ -2770,13 +2770,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-textdecoder@npm:11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-textdecoder@npm:11.1.2"
+"@polkadot/x-textdecoder@npm:11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-textdecoder@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 85e78762dfe3583f8776fc531d4fba3a547530da65790d993447893924fc8d9d9cde44f438d8bbafe5e34edaeea505a6866bd106b3bcc145f0bc8514d626d822
+  checksum: 6c049b2d8728771199072123392452441a7107a658261c42e2ee7389d76fed5467195e072069265153a12b039deaaf17fd72189688244e0c8c288b114b50e07f
   languageName: node
   linkType: hard
 
@@ -2790,13 +2790,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/x-textencoder@npm:11.1.2":
-  version: 11.1.2
-  resolution: "@polkadot/x-textencoder@npm:11.1.2"
+"@polkadot/x-textencoder@npm:11.1.3":
+  version: 11.1.3
+  resolution: "@polkadot/x-textencoder@npm:11.1.3"
   dependencies:
-    "@polkadot/x-global": 11.1.2
+    "@polkadot/x-global": 11.1.3
     tslib: ^2.5.0
-  checksum: 9a9425a8e55a5c3a50eb2bbe0e6840bd055cf5c1ccdb410cb117d33bf3ae792055c6a498f150a8de227725f73ef4bc008bfa9f061408bb42b01242e9820261ef
+  checksum: 5263e8e48876da03afcaf0ed0859a64e201914fda4ae0f10c282b43283e0614c58381e5f20f86d09755a96b3960482ee39ce7a452ce32f2a2dcd2d04a6937402
   languageName: node
   linkType: hard
 
