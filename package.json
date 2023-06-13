@@ -45,5 +45,5 @@
     "typescript": "^5.0.4"
   },
   "bin": "./bin/parachain-launch",
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.6.0"
 }
