@@ -157,7 +157,7 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   // clear authorities
   const runtime = spec.genesis.runtime;
 
-  const sessionKeys = runtime.runtime_genesis_config.session.keys || runtime.session.keys;
+  const sessionKeys = runtime.runtime_genesis_config?.session?.keys || runtime.session.keys;
   sessionKeys.length = 0;
 
   // add authorities from config
@@ -354,7 +354,9 @@ const generateParachainGenesisFile = (
 
   if (chain.collators) {
     const invulnerables = chain.collators.map(getAddress);
-    setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });
+    if (!chain.skipCollatorSelection) {
+      setParachainRuntimeValue(runtime, 'collatorSelection', { invulnerables: invulnerables });
+    }
     setParachainRuntimeValue(runtime, 'session', {
       keys: chain.collators.map((x) => {
         const addr = getAddress(x);
@@ -381,7 +383,9 @@ const generateParachainGenesisFile = (
     for (const addr of endowed) {
       balObj[addr] = (balObj[addr] || 0) + Math.pow(10, decimals) * 1000;
     }
-    setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj) });
+    if (!chain.skipBalances) {
+      setParachainRuntimeValue(runtime, 'balances', { balances: Object.entries(balObj) });
+    }
   }
 
   if (chain.runtimeGenesisConfig) {

@@ -40,6 +40,8 @@ export interface Chain {
     parachainInfo?: { parachainId: number };
     [key: string]: any;
   };
+  skipCollatorSelection?: boolean;
+  skipBalances?: boolean;
 }
 
 export interface Node {
