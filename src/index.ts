@@ -1,16 +1,16 @@
+import * as readline from 'readline-sync';
+import * as shell from 'shelljs';
+import { Keyring } from '@polkadot/api';
+import { cryptoWaitReady, decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import { hideBin } from 'yargs/helpers';
+import { waitReady } from '@polkadot/wasm-crypto';
 import YAML from 'yaml';
+import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
-import readline from 'readline-sync';
-import shell from 'shelljs';
-import { Keyring } from '@polkadot/api';
-import { cryptoWaitReady, encodeAddress, decodeAddress } from '@polkadot/util-crypto';
-import { waitReady } from '@polkadot/wasm-crypto';
 import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
-import _ from 'lodash';
 
-import { Config, Parachain, Chain, DockerConfig, DockerNode } from './types';
+import { Chain, Config, DockerConfig, DockerNode, Parachain } from './types';
 
 /**
  * Check can override file
@@ -240,7 +240,9 @@ const getAddress = (val: string) => {
   try {
     const addr = decodeAddress(val);
     return encodeAddress(addr);
-  } catch {}
+  } catch {
+    // ignore
+  }
 
   const keyring = new Keyring();
   const pair = keyring.createFromUri(`//${_.startCase(val)}`, undefined, 'sr25519');
@@ -557,7 +559,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
   console.log('docker-compose.yml generated at', dockerComposePath);
 };
 
-yargs(hideBin(process.argv))
+void yargs(hideBin(process.argv))
   .strict()
   .options({
     output: {
