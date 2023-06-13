@@ -21,7 +21,8 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.json",
-    "lint": "polkadot-dev-run-lint",
+    "lint": "tsc --noEmit && eslint . --ext .js,.ts && prettier --check .",
+    "fix": "eslint . --ext .js,.ts --fix && prettier -w .",
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
@@ -36,14 +37,26 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@open-web3/dev-config": "^0.2.9",
     "@types/lodash": "^4.14.195",
     "@types/readline-sync": "^1.4.4",
     "@types/shelljs": "^0.8.12",
     "@types/yargs": "^17.0.24",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
-    "typescript": "^5.1.3"
+    "typescript": "~5.0.0"
   },
   "bin": "./bin/parachain-launch",
-  "packageManager": "yarn@3.6.0"
+  "packageManager": "yarn@3.6.0",
+  "prettier": {
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  }
 }
