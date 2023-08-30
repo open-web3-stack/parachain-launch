@@ -78,19 +78,20 @@ const stripChainspecJsonName = (chain: string) => {
  * @param chain
  */
 const getChainspec = (image: string, chain: string) => {
-  let res;
+  const outputChainSpec = `${chain}-${new Date().toISOString().slice(0, 10)}.json`;
   if (chain.endsWith('.json')) {
-    res = exec(
-      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode`
+    exec(
+      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode > ${outputChainSpec}`
     );
   } else {
-    res = exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode`);
+    exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode > ${outputChainSpec}`);
   }
 
   let spec;
 
   try {
-    spec = JSON.parse(res.stdout);
+    spec = JSON.parse(fs.readFileSync(outputChainSpec).toString());
+    fs.unlinkSync(outputChainSpec);
   } catch (e) {
     return fatal('build spec failed', e);
   }
