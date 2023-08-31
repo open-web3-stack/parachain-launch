@@ -78,7 +78,7 @@ const stripChainspecJsonName = (chain: string) => {
  * @param chain
  */
 const getChainspec = (image: string, chain: string) => {
-  const outputChainSpec = `${chain}-${new Date().toISOString().slice(0, 10)}.json`;
+  const outputChainSpec = `${shell.tempdir()}/${chain}-${new Date().toISOString().slice(0, 10)}.json`;
   if (chain.endsWith('.json')) {
     exec(
       `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode > ${outputChainSpec}`
