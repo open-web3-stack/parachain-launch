@@ -81,7 +81,7 @@ const getChainspec = (image: string, chain: string) => {
   const outputChainSpec = `${shell.tempdir()}/${chain}-${new Date().toISOString().slice(0, 10)}.json`;
   if (chain.endsWith('.json')) {
     exec(
-      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode > ${outputChainSpec}`
+      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode > ${outputChainSpec}`,
     );
   } else {
     exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode > ${outputChainSpec}`);
@@ -130,7 +130,7 @@ const jsonStringify = (spec: any) =>
   // JSON.stringify will serialize big number to scientific notation such as 1e+21, which is not supported by Substrate
   JSON.stringify(spec, (_, v) => (typeof v === 'number' ? `@${BigInt(v).toString()}@` : v), 2).replace(
     /"@(.*?)@"/g,
-    '$1'
+    '$1',
   );
 
 /**
@@ -224,7 +224,7 @@ const generateRelaychainGenesisFile = (config: Config, path: string, output: str
   fs.writeFileSync(tmpfile, jsonStringify(spec));
 
   exec(
-    `docker run --rm -v "${tmpfile}":/${config.relaychain.chain}.json ${config.relaychain.image} build-spec --raw --chain=/${config.relaychain.chain}.json --disable-default-bootnode > ${path}`
+    `docker run --rm -v "${tmpfile}":/${config.relaychain.chain}.json ${config.relaychain.image} build-spec --raw --chain=/${config.relaychain.chain}.json --disable-default-bootnode > ${path}`,
   );
 
   shell.rm(tmpfile);
@@ -312,7 +312,7 @@ const generateParachainGenesisFile = (
   image: string,
   chain: Chain | string,
   output: string,
-  yes: boolean
+  yes: boolean,
 ) => {
   if (typeof chain === 'string') {
     chain = { base: chain };
@@ -603,7 +603,7 @@ void yargs(hideBin(process.argv))
         }
         generate(config, argv).catch(fatal);
       }
-    }
+    },
   )
   .help('h')
   .alias('h', 'help').argv;
