@@ -128,7 +128,7 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
   shell.rm(tmpGenesisWasm);
 
   const tmpGenesisState = `${shell.tempdir()}/genesis-state-${new Date().toISOString().slice(0, 10)}`;
-  const res = exec(
+  exec(
     `docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-state ${args.join(
       ' ',
     )} > ${tmpGenesisState}`,
