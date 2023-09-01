@@ -119,12 +119,20 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
   const absOutput = output.startsWith('/') ? output : `$(pwd)/"${output}"`;
 
   const tmpGenesisWasm = `${shell.tempdir()}/genesis-wasm-${new Date().toISOString().slice(0, 10)}`;
-  exec(`docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-wasm ${args.join(' ')} > ${tmpGenesisWasm}`);
+  exec(
+    `docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-wasm ${args.join(
+      ' ',
+    )} > ${tmpGenesisWasm}`,
+  );
   const wasm = fs.readFileSync(tmpGenesisWasm).toString().trim();
   shell.rm(tmpGenesisWasm);
 
   const tmpGenesisState = `${shell.tempdir()}/genesis-state-${new Date().toISOString().slice(0, 10)}`;
-  const res = exec(`docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-state ${args.join(' ')} > ${tmpGenesisState}`);
+  const res = exec(
+    `docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-state ${args.join(
+      ' ',
+    )} > ${tmpGenesisState}`,
+  );
   const state = fs.readFileSync(tmpGenesisState).toString().trim();
   shell.rm(tmpGenesisState);
 
