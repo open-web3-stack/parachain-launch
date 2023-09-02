@@ -78,20 +78,20 @@ const stripChainspecJsonName = (chain: string) => {
  * @param chain
  */
 const getChainspec = (image: string, chain: string) => {
-  const outputChainSpec = `${shell.tempdir()}/${chain}-${new Date().toISOString().slice(0, 10)}.json`;
+  const tmpChainSpec = `${shell.tempdir()}/${chain}-${new Date().toISOString().slice(0, 10)}.json`;
   if (chain.endsWith('.json')) {
     exec(
-      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode > ${outputChainSpec}`,
+      `docker run -v $(pwd)/${chain}:/${chain} --rm ${image} build-spec --chain=/${chain} --disable-default-bootnode > ${tmpChainSpec}`,
     );
   } else {
-    exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode > ${outputChainSpec}`);
+    exec(`docker run --rm ${image} build-spec --chain=${chain} --disable-default-bootnode > ${tmpChainSpec}`);
   }
 
   let spec;
 
   try {
-    spec = JSON.parse(fs.readFileSync(outputChainSpec).toString());
-    fs.unlinkSync(outputChainSpec);
+    spec = JSON.parse(fs.readFileSync(tmpChainSpec).toString());
+    shell.rm(tmpChainSpec);
   } catch (e) {
     return fatal('build spec failed', e);
   }
@@ -117,11 +117,24 @@ const exportParachainGenesis = (parachain: Parachain, output: string) => {
   }
 
   const absOutput = output.startsWith('/') ? output : `$(pwd)/"${output}"`;
-  const res2 = exec(`docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-wasm ${args.join(' ')}`);
-  const wasm = res2.stdout.trim();
 
-  const res = exec(`docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-state ${args.join(' ')}`);
-  const state = res.stdout.trim();
+  const tmpGenesisWasm = `${shell.tempdir()}/genesis-wasm-${new Date().toISOString().slice(0, 10)}`;
+  exec(
+    `docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-wasm ${args.join(
+      ' ',
+    )} > ${tmpGenesisWasm}`,
+  );
+  const wasm = fs.readFileSync(tmpGenesisWasm).toString().trim();
+  shell.rm(tmpGenesisWasm);
+
+  const tmpGenesisState = `${shell.tempdir()}/genesis-state-${new Date().toISOString().slice(0, 10)}`;
+  exec(
+    `docker run -v "${absOutput}":/app --rm ${parachain.image} export-genesis-state ${args.join(
+      ' ',
+    )} > ${tmpGenesisState}`,
+  );
+  const state = fs.readFileSync(tmpGenesisState).toString().trim();
+  shell.rm(tmpGenesisState);
 
   return { state, wasm };
 };
