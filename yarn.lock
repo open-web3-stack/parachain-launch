@@ -164,7 +164,7 @@ __metadata:
     "@polkadot/util": ^12.4.2
     "@polkadot/util-crypto": ^12.4.2
     "@types/lodash": ^4.14.197
-    "@types/readline-sync": ^1.4.5
+    "@types/readline-sync": ^1.4.8
     "@types/shelljs": ^0.8.14
     "@types/yargs": ^17.0.24
     "@typescript-eslint/eslint-plugin": ^6.7.3
@@ -910,10 +910,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/readline-sync@npm:^1.4.5":
-  version: 1.4.5
-  resolution: "@types/readline-sync@npm:1.4.5"
-  checksum: 54891175338b75e7a37fc41506d6f7632be79729314e04d171ad16127cee284d97b31f50c40e39db48f39fde64eb37d586b85d6c72c15dc8f9769cf9ae1c1504
+"@types/readline-sync@npm:^1.4.8":
+  version: 1.4.8
+  resolution: "@types/readline-sync@npm:1.4.8"
+  checksum: 9d69fe944d6a26fb1f6a08d205cb9f6107379570ad0b2081df613ccc7414caa026be9307343afcdd3c93b16939ce2e4a76187c33082301a5c7a2bd5d4a7759ee
   languageName: node
   linkType: hard
 

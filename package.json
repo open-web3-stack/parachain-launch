@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.197",
-    "@types/readline-sync": "^1.4.5",
+    "@types/readline-sync": "^1.4.8",
     "@types/shelljs": "^0.8.14",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
