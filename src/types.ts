@@ -49,7 +49,6 @@ export interface Node {
   name: string;
   flags?: string[];
   port?: number | false;
-  wsPort?: number | false;
   rpcPort?: number | false;
   relaychainFlags?: string[];
 }
