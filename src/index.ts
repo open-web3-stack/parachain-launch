@@ -528,10 +528,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
       const name = `parachain-${parachain.id}-${nodeIdx}`;
 
       const nodeConfig: DockerNode = {
-        ports: [
-          `${parachainNode.rpcPort || 9944 + idx}:9944`,
-          `${parachainNode.port || 30333 + idx}:30333`,
-        ],
+        ports: [`${parachainNode.rpcPort || 9944 + idx}:9944`, `${parachainNode.port || 30333 + idx}:30333`],
         volumes: [`${name}:${volumePath}`],
         build: {
           context: '.',
