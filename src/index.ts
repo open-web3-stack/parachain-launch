@@ -487,8 +487,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
     const name = `relaychain-${_.kebabCase(node.name)}`;
     const nodeConfig: DockerNode = {
       ports: [
-        ...(node.wsPort === false ? [] : [`${node.wsPort || 9944 + idx}:9944`]),
-        ...(node.rpcPort === false ? [] : [`${node.rpcPort || 9933 + idx}:9933`]),
+        ...(node.rpcPort === false ? [] : [`${node.rpcPort || 9944 + idx}:9944`]),
         ...(node.port === false ? [] : [`${node.port || 30333 + idx}:30333`]),
       ],
       volumes: [`${name}:/data`],
@@ -500,7 +499,6 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
         '--base-path=/data',
         `--chain=/app/${config.relaychain.chain}.json`,
         '--validator',
-        '--ws-external',
         '--rpc-external',
         '--rpc-cors=all',
         `--name=${node.name}`,
@@ -528,11 +526,7 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
       const name = `parachain-${parachain.id}-${nodeIdx}`;
 
       const nodeConfig: DockerNode = {
-        ports: [
-          `${parachainNode.wsPort || 9944 + idx}:9944`,
-          `${parachainNode.rpcPort || 9933 + idx}:9933`,
-          `${parachainNode.port || 30333 + idx}:30333`,
-        ],
+        ports: [`${parachainNode.rpcPort || 9944 + idx}:9944`, `${parachainNode.port || 30333 + idx}:30333`],
         volumes: [`${name}:${volumePath}`],
         build: {
           context: '.',
@@ -541,7 +535,6 @@ const generate = async (config: Config, { output, yes }: { output: string; yes: 
         command: [
           `--base-path=${volumePath}`,
           `--chain=/app/${getChainspecName(parachain.chain, parachain.id)}`,
-          '--ws-external',
           '--rpc-external',
           '--rpc-cors=all',
           `--name=${name}`,

@@ -1,6 +1,6 @@
 # Relaychain Configuration
 relaychain:
-  image: parity/polkadot:v0.9.31 # the docker image to use
+  image: parity/polkadot:v1.1.0 # the docker image to use
   chain: rococo-local # the chain to use
   runtimeGenesisConfig: # additonal genesis override
     configuration:
@@ -15,8 +15,7 @@ relaychain:
     - --rpc-methods=unsafe
   nodes: # nodes config
     - name: alice # the node name and session key, this imply `--alice`
-      wsPort: 9944 # default ws port number is `9944 + global_node_index`
-      rpcPort: 9933 # default rpc port number is `9933 + global_node_index`
+      rpcPort: 9944 # default ws & rpc port number is `9944 + global_node_index`
       port: 30333 # default libp2p port number is `30333 + global_node_index`
       flags: # additional CLI flags for this node
         - --force-authoring
@@ -28,7 +27,7 @@ relaychain:
 # Parachain Configuration
 parachains:
 # Config for first parachain
-- image: acala/karura-node:2.11.0
+- image: acala/karura-node:2.21.0
   chain: # this could be a string like `dev` or a config object
     base: karura-local # the chain to use
     collators: # override collators
@@ -55,8 +54,7 @@ parachains:
     RUST_LOG: sc_basic_authorship=trace
   volumePath: /acala/data # The path to mount volume and base path, default to /data
   nodes: # nodes config
-  - wsPort: 9947
-    rpcPort: 9936
+  - rpcPort: 9947
     port: 30336
     flags: # additional CLI flags for this node
       - --alice
