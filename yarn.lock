@@ -180,7 +180,7 @@ __metadata:
     shelljs: ^0.8.5
     ts-node: ^10.9.1
     typescript: ~5.3.2
-    yaml: ^2.3.2
+    yaml: ^2.4.2
     yargs: ^17.7.2
   bin:
     parachain-launch: ./bin/parachain-launch
@@ -3220,10 +3220,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.3.2":
-  version: 2.3.4
-  resolution: "yaml@npm:2.3.4"
-  checksum: e6d1dae1c6383bcc8ba11796eef3b8c02d5082911c6723efeeb5ba50fc8e881df18d645e64de68e421b577296000bea9c75d6d9097c2f6699da3ae0406c030d8
+"yaml@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "yaml@npm:2.4.2"
+  bin:
+    yaml: bin.mjs
+  checksum: 90dda4485de04367251face9abb5c36927c94e44078f4e958e6468a07e74e7e92f89be20fc49860b6268c51ee5a5fc79ef89197d3f874bf24ef8921cc4ba9013
   languageName: node
   linkType: hard
 
