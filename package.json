@@ -50,7 +50,7 @@
     "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.1",
-    "typescript": "~5.3.2"
+    "typescript": "~5.5.2"
   },
   "bin": "./bin/parachain-launch",
   "packageManager": "yarn@3.6.0",
