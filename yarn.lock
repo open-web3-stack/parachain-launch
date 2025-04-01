@@ -170,7 +170,7 @@ __metadata:
     "@polkadot/keyring": ^12.4.2
     "@polkadot/util": ^12.4.2
     "@polkadot/util-crypto": ^12.4.2
-    "@types/lodash": ^4.17.9
+    "@types/lodash": ^4.17.16
     "@types/readline-sync": ^1.4.8
     "@types/shelljs": ^0.8.14
     "@types/yargs": ^17.0.33
@@ -696,10 +696,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.17.9":
-  version: 4.17.9
-  resolution: "@types/lodash@npm:4.17.9"
-  checksum: 6d1bf3e77f0a54d97532755a74260d402d8972259c5451b74612c16cb983b73e0760e5bfe4f9e68ab15051511c867812b40715a01f9805afe6bc36c7dd676378
+"@types/lodash@npm:^4.17.16":
+  version: 4.17.16
+  resolution: "@types/lodash@npm:4.17.16"
+  checksum: 915618c5735b10007e0ed7d06fdce6b344f88fc721d492b189a69064bfd046d2382e1ba61d683eeb61cad60ca0286cd110e6fe0fa4ab2e99066a40478376831d
   languageName: node
   linkType: hard
 
